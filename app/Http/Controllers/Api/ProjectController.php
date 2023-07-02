@@ -13,9 +13,9 @@ class ProjectController extends Controller
 
 
         if($request->has('type_id')){
-            $projects = Project::with(['type', 'technologies'])->where('type_id', $request->type_id)->get();
+            $projects = Project::with(['type', 'technologies'])->where('type_id', $request->type_id)->paginate(4);
         } else{
-            $projects = Project::with(['type', 'technologies'])->get();
+            $projects = Project::with(['type', 'technologies'])->paginate(4);
         }
 
         return response()->json([
