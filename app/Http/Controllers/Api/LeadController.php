@@ -7,6 +7,7 @@ use App\Mail\NewContact;
 use Illuminate\Http\Request;
 use App\Models\Admin\Lead;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class LeadController extends Controller
 {
@@ -16,6 +17,22 @@ class LeadController extends Controller
         $data = $request->all();
 
         // validazione
+        $validator = Validator::make($data, [
+            'name' => 'required',
+            'email' => 'required',
+            'message' => 'required'
+        ]);
+
+
+        // validazione non a buon fine
+        if($validator->fails()){
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors()
+                ]
+            );
+        }
 
         // salvataggio dati nel db
         // metodo 1
